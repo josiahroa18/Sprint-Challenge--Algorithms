@@ -92,12 +92,73 @@ class SortingRobot:
         """
         return self._light == "ON"
 
+    # def sort(self):
+    #     """
+    #     Sort the robot's list.
+    #     Bubble sort algorithm
+    #     """
+    #     self.set_light_on() # Light on indicates that the list has not been sorted
+    #     while self.light_is_on(): # Keep looping while the light is off
+    #         self.set_light_off() # Assume the list is sorted when starting the loop
+
+    #         while self.can_move_right(): # Keep going until we reach the end of the list
+    #             self.swap_item() # Keep track of the robot's position then move to the right
+    #             self.move_right()
+
+    #             # Compare the values, check if held item is greater => ex. [3,2] returns 1
+    #             if self.compare_item() == 1:
+    #                 # The item on the left is larger than the item on the right so we need to swap the two values
+    #                 self.swap_item()
+    #                 self.move_left()
+    #                 self.swap_item()
+    #                 self.move_right()
+    #                 self.set_light_on()
+    #             else:
+    #                 # The value was not greater, so the robot can put the item back to its original position
+    #                 self.move_left()
+    #                 self.swap_item()
+    #                 self.move_right()
+                
+    #         # Must go back to the beginning
+    #         while self.can_move_left():
+    #             self.move_left()
+
     def sort(self):
         """
         Sort the robot's list.
+        Insertion sort
         """
-        # Fill this out
-        pass
+        self.set_light_on()
+        while self.light_is_on():
+            self.set_light_off()
+            self.swap_item()
+
+            # Keep moving right until we reach the end of the list
+            # This will end the loop with the smallest value in the list in hand
+            while self.can_move_right():
+                self.move_right()
+                if self.compare_item() == 1:
+                    self.swap_item()
+
+            
+            # We have now found the next smallest number in the list
+            # Move back as far left. The position for the smallest value will be None
+            while self.can_move_left() and self.compare_item() != None:
+                self.move_left()
+
+            self.swap_item()
+            self.move_right()
+            print(self._item)
+            
+            # Check to see if we made it to the end
+            if not self.can_move_right():
+                self.set_light_off() # We have reached the end
+            else:
+                self.set_light_on() # We are not done sorting the list
+            
+            
+            
+
 
 
 if __name__ == "__main__":
